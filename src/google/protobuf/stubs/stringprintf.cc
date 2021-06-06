@@ -156,12 +156,6 @@ string StringPrintfVector(const char* format, const vector<string>& v) {
     cstr[i] = &string_printf_empty_block[0];
   }
 
-  // I do not know any way to pass kStringPrintfVectorMaxArgs arguments,
-  // or any way to build a va_list by hand, or any API for printf
-  // that accepts an array of arguments.  The best I can do is stick
-  // this COMPILE_ASSERT right next to the actual statement.
-
-  GOOGLE_COMPILE_ASSERT(kStringPrintfVectorMaxArgs == 32, arg_count_mismatch);
   return StringPrintf(format,
                       cstr[0], cstr[1], cstr[2], cstr[3], cstr[4],
                       cstr[5], cstr[6], cstr[7], cstr[8], cstr[9],

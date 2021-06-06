@@ -843,13 +843,6 @@ char *FastHex32ToBuffer(uint32 value, char* buffer) {
   return InternalFastHexToBuffer(value, buffer, 8);
 }
 
-static inline char* PlaceNum(char* p, int num, char prev_sep) {
-   *p-- = '0' + num % 10;
-   *p-- = '0' + num / 10;
-   *p-- = prev_sep;
-   return p;
-}
-
 // ----------------------------------------------------------------------
 // FastInt32ToBufferLeft()
 // FastUInt32ToBufferLeft()
@@ -1165,12 +1158,6 @@ void DelocalizeRadix(char* buffer) {
 }
 
 char* DoubleToBuffer(double value, char* buffer) {
-  // DBL_DIG is 15 for IEEE-754 doubles, which are used on almost all
-  // platforms these days.  Just in case some system exists where DBL_DIG
-  // is significantly larger -- and risks overflowing our buffer -- we have
-  // this assert.
-  GOOGLE_COMPILE_ASSERT(DBL_DIG < 20, DBL_DIG_is_too_big);
-
   if (value == numeric_limits<double>::infinity()) {
     strcpy(buffer, "inf");
     return buffer;
@@ -1220,12 +1207,6 @@ bool safe_strtof(const char* str, float* value) {
 }
 
 char* FloatToBuffer(float value, char* buffer) {
-  // FLT_DIG is 6 for IEEE-754 floats, which are used on almost all
-  // platforms these days.  Just in case some system exists where FLT_DIG
-  // is significantly larger -- and risks overflowing our buffer -- we have
-  // this assert.
-  GOOGLE_COMPILE_ASSERT(FLT_DIG < 10, FLT_DIG_is_too_big);
-
   if (value == numeric_limits<double>::infinity()) {
     strcpy(buffer, "inf");
     return buffer;
